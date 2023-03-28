@@ -1,0 +1,10 @@
+# @author Gustav Nilsson Pedersen
+version: '3'
+services:
+
+  Token:
+    build: .
+    image: token-image
+    container_name: service-token
+    ports: 
+      - "8080:8080"

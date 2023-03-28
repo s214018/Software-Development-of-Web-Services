@@ -1,0 +1,10 @@
+# @author Muaz Ahmed
+version: '3'
+services:
+
+  Payment:
+    build: .
+    image: payment-image
+    container_name: service-payment
+    ports: 
+      - "8080:8080"

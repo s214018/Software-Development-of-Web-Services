@@ -1,0 +1,10 @@
+# @author Julia Makulec
+version: '3'
+services:
+
+  Report:
+    build: .
+    image: report-image
+    container_name: service-report
+    ports: 
+      - "8080:8080"

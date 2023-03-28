@@ -1,0 +1,10 @@
+# @author Hjalte Bøgehave
+version: '3'
+services:
+
+  Token:
+    build: .
+    image: facade-image
+    container_name: service-facade
+    ports: 
+      - "8080:8080"

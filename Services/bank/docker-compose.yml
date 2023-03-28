@@ -1,0 +1,10 @@
+# @author Mads Klynderud (s215955)
+version: '3'
+services:
+
+  Account:
+    build: .
+    image: bank-image
+    container_name: service-account
+    ports: 
+      - "8080:8080"

@@ -1,0 +1,565 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DTUPay",
+    "version": "1.0.11"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "customer",
+      "description": "Everything about your Pets"
+    },
+    {
+      "name": "merchant",
+      "description": "Access to Petstore orders"
+    },
+    {
+      "name": "manager",
+      "description": "Operations about user"
+    }
+  ],
+  "paths": {
+    "/customer": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Create a customer user",
+        "description": "",
+        "operationId": "createCustomer",
+        "parameters": [
+          {
+            "name": "bankAccountID",
+            "in": "query",
+            "description": "ID of customer bank",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucessful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerCreationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid bankAccountID"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Deregister a user",
+        "description": "",
+        "operationId": "deregisterCustomer",
+        "parameters": [
+          {
+            "name": "customerID",
+            "in": "query",
+            "description": "ID of the customer",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucessful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    },
+    "/customer/token": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Request new tokens",
+        "description": "",
+        "operationId": "requestTokens",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A token generation response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Customer has two or more tokens"
+          }
+        }
+      }
+    },
+    "/customer/{customerID}/report": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Request report",
+        "description": "",
+        "operationId": "requestCustomerReport",
+        "parameters": [
+          {
+            "name": "customerID",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucessful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerReportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/merchant": {
+      "post": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Create a merchant user",
+        "description": "",
+        "operationId": "createMerchant",
+        "parameters": [
+          {
+            "name": "bankAccountID",
+            "in": "query",
+            "description": "ID of merchant bank",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucessful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MerchantCreationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid bankAccountID"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Deregister a merchant",
+        "description": "",
+        "operationId": "deregister Merchant",
+        "parameters": [
+          {
+            "name": "merchantID",
+            "in": "query",
+            "description": "ID of the merchant",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucessful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Merchant not found"
+          }
+        }
+      }
+    },
+    "/merchant/payment": {
+      "post": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Merchant requests a payment",
+        "description": "",
+        "operationId": "paymentRequest",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sucessful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentRequestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/merchant/{merchantID}/report": {
+      "get": {
+        "tags": [
+          "merchant"
+        ],
+        "summary": "Request report",
+        "description": "",
+        "operationId": "requestMerchantReport",
+        "parameters": [
+          {
+            "name": "merchantID",
+            "in": "path",
+            "description": "ID of Merchant",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucessful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MerchantReportResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/manager/report": {
+      "get": {
+        "tags": [
+          "manager"
+        ],
+        "summary": "Request Manager report",
+        "description": "",
+        "operationId": "requesManagerReport",
+        "responses": {
+          "200": {
+            "description": "Sucessful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ManagerResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PaymentRequestResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Payment succesful"
+          },
+          "paymentRequest": {
+            "$ref": "#/components/schemas/PaymentRequest"
+          }
+        }
+      },
+      "PaymentRequest": {
+        "type": "object",
+        "properties": {
+          "merchantID": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          },
+          "token": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          },
+          "amount": {
+            "type": "number",
+            "example": 123
+          }
+        }
+      },
+      "CustomerCreationResponse": {
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/components/schemas/Customer"
+          },
+          "message": {
+            "type": "string",
+            "example": "Account creation successful"
+          }
+        }
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "customerID": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          },
+          "bankAccountID": {
+            "type": "string",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Token"
+            }
+          }
+        }
+      },
+      "MerchantCreationResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Account creation successful"
+          },
+          "merchant": {
+            "$ref": "#/components/schemas/Merchant"
+          }
+        }
+      },
+      "Merchant": {
+        "type": "object",
+        "properties": {
+          "merchantID": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          },
+          "bankAccountID": {
+            "type": "string",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          }
+        }
+      },
+      "TokenRequest": {
+        "type": "object",
+        "properties": {
+          "customerID": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          },
+          "numberOfTokens": {
+            "type": "number",
+            "example": 1
+          }
+        }
+      },
+      "TokenResponse": {
+        "type": "object",
+        "properties": {
+          "customerID": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          },
+          "message": {
+            "type": "string",
+            "example": "Operation successful"
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Token"
+            }
+          }
+        }
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "tokenID": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          }
+        }
+      },
+      "GenericResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Operation successful"
+          }
+        }
+      },
+      "CustomerReportResponse": {
+        "type": "object",
+        "properties": {
+          "paymentResponseList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomerPaymentResponse"
+            }
+          }
+        }
+      },
+      "CustomerPaymentResponse": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 123
+          },
+          "merchantID": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          },
+          "token": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          }
+        }
+      },
+      "MerchantReportResponse": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 15
+          },
+          "token": {
+            "type": "string",
+            "format": "uuid",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          }
+        }
+      },
+      "ManagerPayment": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 100
+          },
+          "customerID": {
+            "type": "string",
+            "format": "UUID",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          },
+          "merchantID": {
+            "type": "string",
+            "format": "UUID",
+            "example": "2e39c8dc-98f2-11ed-a8fc-0242ac120002"
+          }
+        }
+      },
+      "ManagerResponse": {
+        "type": "object",
+        "properties": {
+          "totalPaymentAmount": {
+            "type": "number",
+            "example": 100
+          },
+          "paymentList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ManagerPayment"
+            }
+          }
+        }
+      }
+    }
+  }
+}

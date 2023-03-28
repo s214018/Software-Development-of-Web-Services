@@ -1,0 +1,13 @@
+# Hjalte Bøgehave
+
+version: '3.7'
+services:
+  swagger:
+    image: swaggerapi/swagger-ui
+    container_name: "swagger"
+    volumes:
+      - ./openapi.json:/openapi.json
+    environment:
+      SWAGGER_JSON: /openapi.json
+    ports:
+      - "8081:8080"

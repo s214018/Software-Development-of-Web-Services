@@ -1,0 +1,90 @@
+# Hjalte Bøgehave
+
+version: '3.7'
+services:
+  accounts:
+    build:
+      context: ../Services/account
+    container_name: "accounts"
+    restart: "always"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    expose:
+      - "8080"
+
+  payments:
+    build:
+      context: ../Services/payment
+    container_name: "payments"
+    restart: "always"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    expose:
+      - "8080"
+
+  reports:
+    build:
+      context: ../Services/report
+    container_name: "reports"
+    restart: "always"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    expose:
+      - "8080"
+
+  token:
+    build:
+      context: ../Services/token
+    container_name: "token"
+    restart: "always"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    expose:
+      - "8080"
+
+  facades:
+    build:
+      context: ../Services/facades
+    container_name: "facades"
+    restart: "always"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    expose:
+      - "8080"
+
+
+  nginx:
+    build:
+      context: .
+      dockerfile: dockerfile.nginx
+    container_name: "nginx"
+    restart: "always"
+    links:
+      - accounts
+      - reports
+      - facades
+    ports:
+      - target: 8000
+        published: 8000
+        protocol: tcp
+        mode: host
